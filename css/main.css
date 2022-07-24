@@ -3066,9 +3066,6 @@ blockquote {
 
 /* CUSTOM CSS */
 
-#particles-js {
-  position: relative;
-}
 .particles-js-canvas-el {
   position: absolute;
   top: 0;
