@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * Contact Form Handler
+ *
+ * This script handles the submission of the contact form via AJAX.
+ * It validates the reCAPTCHA response, constructs an email message,
+ * and sends it to the configured email address.
+ *
+ * Expected POST Parameters:
+ * - name: Name of the sender
+ * - email: Email address of the sender
+ * - subject: Subject of the message
+ * - message: The message content
+ * - g-recaptcha-response: The Google reCAPTCHA token
+ *
+ * Returns:
+ * - JSON object with 'type' (success/danger) and 'message' (string)
+ * - OR plain text message if not an XMLHttpRequest
+ *
+ * Configuration:
+ * - Update $from, $sendTo, and $secret with actual values.
+ */
+
 // configure
 $from = 'info@yourdomain.com'; // Replace it with Your Hosting Admin email. REQUIRED!
 $sendTo = 'your@mail.com'; // Replace it with Your email. REQUIRED!
