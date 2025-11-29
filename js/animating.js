@@ -5,6 +5,16 @@
 * Version: 1.5.0
 */
 
+/**
+ * PageTransitions Module
+ *
+ * Handles page transitions, animations, and navigation between different sections of the website.
+ * It manages the state of the current and next pages, applies CSS animations, and handles hash changes.
+ *
+ * @module PageTransitions
+ * @param {jQuery} $ - The jQuery object.
+ * @param {object} options - Configuration options for the module.
+ */
 var PageTransitions = (function ($, options) {
 "use strict";
     var sectionsContainer = $(".animated-sections"),
@@ -25,6 +35,16 @@ var PageTransitions = (function ($, options) {
         // support css animations
         support = Modernizr.cssanimations;
 
+    /**
+     * Initializes the PageTransitions module.
+     * Sets up event listeners for navigation, hash changes, and arrow keys.
+     * Initializes the starting section based on the URL hash.
+     *
+     * @function init
+     * @param {object} options - Configuration object.
+     * @param {string} options.menu - Selector for the main menu.
+     * @returns {void}
+     */
     function init(options) {
 
         // Get all the .animated-section sections.
@@ -99,6 +119,13 @@ var PageTransitions = (function ($, options) {
         });
     }
 
+    /**
+     * Retrieves the active section ID from the URL hash.
+     * If no hash is present, defaults to the first section and updates the hash.
+     *
+     * @function getActiveSection
+     * @returns {string} The hash (ID) of the active section.
+     */
     function getActiveSection() {
         if(location.hash === "") {
             return location.hash = $('section.animated-section').first().attr('data-id');
@@ -108,6 +135,14 @@ var PageTransitions = (function ($, options) {
         }
     }
 
+    /**
+     * Highlights the active menu item corresponding to the current section.
+     * Removes the 'active' class from all menu items and adds it to the target item.
+     *
+     * @function activeMenuItem
+     * @param {jQuery|HTMLElement|string} item - The menu item to activate.
+     * @returns {boolean|void} False if item is invalid, otherwise void.
+     */
     function activeMenuItem(item) {
         if ( !item ) {
             return false;
@@ -123,16 +158,29 @@ var PageTransitions = (function ($, options) {
         }
     }
 
+    /**
+     * Handles AJAX loading of content for specific sections.
+     * Manages showing/hiding the AJAX content container and updating the URL hash.
+     *
+     * @function ajaxLoader
+     * @returns {void}
+     */
     function ajaxLoader() {
         // Check for hash value in URL
         var ajaxLoadedContent = $('#page-ajax-loaded');
 
+        /**
+         * Shows the AJAX content container.
+         */
         function showContent() {
             ajaxLoadedContent.removeClass('animated-section-moveToRight closed');
             ajaxLoadedContent.show();
             $('body').addClass('ajax-page-visible');
         }
 
+        /**
+         * Hides the AJAX content container and clears its content.
+         */
         function hideContent() {
             $('#page-ajax-loaded').addClass('animated-section-moveToRight closed');
             $('body').removeClass('ajax-page-visible');
@@ -167,6 +215,15 @@ var PageTransitions = (function ($, options) {
             });
     }
 
+    /**
+     * Animates the transition between the current page and the target page.
+     * Determines the animation type based on 'data-animation' attribute and handles the CSS classes for transition.
+     *
+     * @function Animate
+     * @param {jQuery} $pageTrigger - The jQuery object of the element triggering the animation.
+     * @param {string} [gotoPage] - The ID of the page to navigate to (optional, derived from href if not provided).
+     * @returns {boolean|void} False if animation number is invalid, otherwise void.
+     */
     function Animate($pageTrigger, gotoPage) {
 
         // Checking for 'data-animation' attribute.
@@ -523,10 +580,29 @@ var PageTransitions = (function ($, options) {
 
     }
 
+    /**
+     * Callback function executed when the page transition animation ends.
+     * Resets the classes of the pages.
+     *
+     * @function onEndAnimation
+     * @param {jQuery} $pageWrapper - The container of the sections.
+     * @param {jQuery} $nextPage - The jQuery object of the next page.
+     * @param {jQuery} $currentPage - The jQuery object of the current page.
+     * @returns {void}
+     */
     function onEndAnimation($pageWrapper, $nextPage, $currentPage) {
         resetPage($nextPage, $currentPage);
     }
 
+    /**
+     * Resets the classes of the next and current pages after animation.
+     * Ensures the 'section-active' class is correctly applied to the new page.
+     *
+     * @function resetPage
+     * @param {jQuery} $nextPage - The jQuery object of the next page.
+     * @param {jQuery} $currentPage - The jQuery object of the current page.
+     * @returns {void}
+     */
     function resetPage($nextPage, $currentPage) {
         $currentPage.attr('class', $currentPage.data('originalClassList'));
         $nextPage.attr('class', $nextPage.data('originalClassList') + ' section-active');

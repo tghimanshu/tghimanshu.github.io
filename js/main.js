@@ -7,7 +7,15 @@
 
 (function ($) {
   "use strict";
-  // Portfolio subpage filters
+
+  /**
+   * Initializes the portfolio grid and its filters.
+   * This function sets up the 'shuffle' plugin for the portfolio items
+   * and handles click events on the filter buttons to sort/filter the items.
+   *
+   * @function portfolio_init
+   * @returns {void}
+   */
   function portfolio_init() {
     var portfolio_grid = $(".portfolio-grid"),
       portfolio_filter = $(".portfolio-filters");
@@ -29,7 +37,14 @@
   }
   // /Portfolio subpage filters
 
-  // Hide Mobile menu
+  /**
+   * Hides the mobile menu and handles the animation of the site header.
+   * It checks the window width and applies classes to hide/show the menu
+   * and animate the header accordingly.
+   *
+   * @function mobileMenuHide
+   * @returns {void}
+   */
   function mobileMenuHide() {
     var windowWidth = $(window).width(),
       siteHeader = $("#site_header");
@@ -46,7 +61,14 @@
   }
   // /Hide Mobile menu
 
-  // Custom scroll
+  /**
+   * Initializes or destroys the custom scrollbar based on window width.
+   * If the window width is greater than 1024px, it initializes 'perfectScrollbar'
+   * on specific sections. Otherwise, it destroys the scrollbar instance.
+   *
+   * @function customScroll
+   * @returns {void}
+   */
   function customScroll() {
     var windowWidth = $(window).width();
     if (windowWidth > 1024) {
