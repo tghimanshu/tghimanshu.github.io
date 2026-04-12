@@ -1,111 +1,73 @@
-# BreezyCV - Resume / CV / vCard / Portfolio Template
+# React + TypeScript + Vite
 
-BreezyCV is a responsive, feature-rich template designed for creating personal portfolios, CVs, and vCards. It utilizes HTML5, CSS3, JavaScript (jQuery), and PHP to provide a smooth, animated, and interactive user experience.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Table of Contents
+Currently, two official plugins are available:
 
-- [Purpose](#purpose)
-- [Features](#features)
-- [Setup & Configuration](#setup--configuration)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Contact Form Configuration](#contact-form-configuration)
-  - [Google Maps Configuration](#google-maps-configuration)
-- [Usage](#usage)
-  - [Directory Structure](#directory-structure)
-  - [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Purpose
+## React Compiler
 
-The main purpose of this project is to provide a professional and visually appealing template for individuals to showcase their skills, experience, and portfolio. It is designed to be easily customizable and deployable.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Features
+## Expanding the ESLint configuration
 
-- **Responsive Design**: Works on desktops, tablets, and mobile devices.
-- **Page Transitions**: Smooth animations between different sections of the website.
-- **Portfolio Grid**: Filterable portfolio grid using `shuffle.js`.
-- **Contact Form**: Functional contact form with Google reCAPTCHA and PHP backend.
-- **Custom Scroll**: Styled scrollbars for a consistent look across browsers.
-- **Blog Section**: Masonry layout for blog posts.
-- **Testimonials & Clients**: Carousels for showcasing testimonials and client logos.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Setup & Configuration
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-### Prerequisites
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-To run this template fully, you will need:
-- A web server (Apache, Nginx, etc.) with PHP support (for the contact form).
-- A modern web browser.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-### Installation
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-1.  **Clone the repository** (or download the files):
-    ```bash
-    git clone <repository_url>
-    ```
-2.  **Upload** the files to your web server's public directory (e.g., `public_html`).
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-### Contact Form Configuration
-
-To make the contact form work, you need to configure the `contact_form/contact_form.php` file:
-
-1.  Open `contact_form/contact_form.php`.
-2.  Update the following variables:
-    ```php
-    $from = 'info@yourdomain.com'; // Your hosting admin email (sender)
-    $sendTo = 'your@mail.com';     // Your email address (recipient)
-    $secret = 'YOUR_RECAPTCHA_SECRET_KEY'; // Google reCAPTCHA Secret Key
-    ```
-3.  Ensure you have registered your domain with [Google reCAPTCHA](https://www.google.com/recaptcha/) to get the Site Key and Secret Key.
-4.  Update the HTML file (e.g., `index.html`) with your reCAPTCHA **Site Key** in the `data-sitekey` attribute of the reCAPTCHA div.
-
-### Google Maps Configuration
-
-To enable the Google Map in the contact section:
-
-1.  Open `js/main.js`.
-2.  Find the Google Maps initialization code:
-    ```javascript
-    $("#map").googleMap({
-      zoom: 16,
-    });
-    $("#map").addMarker({
-      address: "S601 Townsend Street, San Francisco, California, USA",
-    });
-    ```
-3.  Update the `address` to your desired location.
-4.  **Important**: You also need to include the Google Maps API script in your HTML file with a valid API Key.
-
-## Usage
-
-### Directory Structure
-
--   `css/`: Contains CSS stylesheets.
--   `js/`: Contains JavaScript files.
-    -   `main.js`: Main application logic.
-    -   `animating.js`: Page transition logic.
-    -   `validator.js`: Form validation library.
--   `contact_form/`: Contains the PHP script for the contact form.
--   `img/`: Images and assets.
--   `fonts/`: Font files.
-
-### Customization
-
--   **Content**: Edit the HTML files (`index.html`, etc.) to update the text, images, and structure.
--   **Styles**: Modify `css/main.css` (or relevant CSS files) to change the appearance.
--   **Scripts**: Custom logic can be added to `js/main.js`.
-
-## Contributing
-
-If you wish to contribute to this project, please follow these steps:
-
-1.  Fork the repository.
-2.  Create a feature branch.
-3.  Commit your changes.
-4.  Submit a pull request.
-
-## License
-
-[License Information Here]
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
